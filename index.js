@@ -3,14 +3,27 @@ const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const { connection } = require("./config/db");
-
+// user
+const { Userrouter } = require("./routes/user.routes");
+// auth
+const { auth } = require("./middleware/auth.middleware");
+// dog
+const { dogRouter } = require("./routes/dog.routes");
 app.use(cors());
 app.use(express.json());
 
-// app.use(auth);
+
 app.get("/", (req, res) => {
-  res.send("please login");
+  res.send("please login!!");
 });
+
+// user
+app.use("/users", Userrouter);
+
+app.use(auth);
+
+// dog
+app.use("/dog", dogRouter);
 
 app.listen(process.env.port, async () => {
   try {
